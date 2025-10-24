@@ -1,0 +1,123 @@
+@startuml Самолет_Контроль_Полётов
+
+title Диаграмма классов: Сущность "Самолет"\nПрограмма контроля полетов для аэропорта
+
+skinparam groupInheritance 2
+skinparam class {
+    BackgroundColor White
+    ArrowColor #990000
+    BorderColor #990000
+}
+
+' Перечисления (Enums)
+enum AircraftStatus {
+    SCHEDULED
+    BOARDING
+    READY_FOR_TAKEOFF
+    IN_AIR
+    LANDED
+    AT_GATE
+    DELAYED
+    CANCELLED
+    MAINTENANCE
+}
+
+enum AircraftType {
+    NARROW_BODY
+    WIDE_BODY
+    REGIONAL
+    CARGO
+}
+
+enum FlightStatus {
+    SCHEDULED
+    DELAYED
+    DEPARTED
+    IN_AIR
+    LANDED
+    ARRIVED
+    CANCELLED
+}
+
+' Основные классы
+class Aircraft {
+    - tailNumber: String
+    - model: String
+    - type: AircraftType
+    - airline: String
+    - maxPassengers: int
+    - currentStatus: AircraftStatus
+    - currentFlight: Flight
+    - position: GeoPosition
+    - fuelLevel: double
+    - maintenanceDueDate: Date
+    --
+    + assignToFlight(Flight): boolean
+    + updateStatus(AircraftStatus): void
+    + updatePosition(GeoPosition): void
+    + requestMaintenance(): void
+    + isAvailableForFlight(): boolean
+    + getFuelStatus(): String
+    + needsMaintenance(): boolean
+}
+
+class GeoPosition {
+    - latitude: double
+    - longitude: double
+    - altitude: double
+    - timestamp: DateTime
+    --
+    + getPositionAsString(): String
+    + calculateDistanceTo(other: GeoPosition): double
+    + isValid(): boolean
+}
+
+class Flight {
+    - flightNumber: String
+    - departureAirport: String
+    - arrivalAirport: String
+    - scheduledDeparture: DateTime
+    - estimatedDeparture: DateTime
+    - actualDeparture: DateTime
+    - scheduledArrival: DateTime
+    - estimatedArrival: DateTime
+    - actualArrival: DateTime
+    - status: FlightStatus
+    - gate: String
+    - aircraft: Aircraft
+    --
+    + delayFlight(newTime: DateTime, reason: String): void
+    + updateFlightStatus(newStatus: FlightStatus): void
+    + assignAircraft(aircraft: Aircraft): boolean
+    + calculateFlightDuration(): Duration
+    + isOnTime(): boolean
+}
+
+' Связи между классами
+Aircraft "1" *-- "1" GeoPosition
+Aircraft "1" --> "0..1" Flight
+Flight "1" --> "0..1" Aircraft
+
+Aircraft --> AircraftType
+Aircraft --> AircraftStatus
+Flight --> FlightStatus
+
+note top of Aircraft
+    Основная сущность воздушного судна.
+    Отслеживает текущее состояние,
+    позицию и назначенный рейс.
+end note
+
+note right of GeoPosition
+    Реальная позиция самолета
+    с временной меткой.
+    Обновляется в реальном времени.
+end note
+
+note bottom of Flight
+    Информация о рейсе.
+    Может быть связан с самолетом
+    или ожидать назначения.
+end note
+
+@enduml

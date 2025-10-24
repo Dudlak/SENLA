@@ -7,23 +7,29 @@ public class Main {
         Random random = new Random();
         Hotel hotel = new Hotel();
 
-        Room room1 = new Room(random.nextInt(100, 300));
-        Room room2 = new Room(random.nextInt(100, 300));
-        Room room3 = new Room(random.nextInt(100, 300));
-        Room room4 = new Room(random.nextInt(100, 300));
+        hotel.addRoom(random.nextInt(100, 300));
+        hotel.addRoom(random.nextInt(100, 300));
+        hotel.addRoom(random.nextInt(100, 300));
+        hotel.addRoom(random.nextInt(100, 300));
 
-        room2.setStatusRepair();
-        room3.setStatusOccupied();
-        room4.setStatusService();
+        hotel.moveOutRoom(1);
 
-        hotel.addRoom(room1);
-        hotel.addRoom(room2);
-        hotel.addRoom(room3);
-        hotel.addRoom(room4);
+        System.out.println();
 
-        hotel.addService(new Service("еда в номер",10));
-        hotel.addService(new Service("срочная уборка",20));
-        hotel.addService(new Service("такси",30));
+        hotel.addService("еда в номер",10);
+        hotel.addService("срочная уборка",20);
+        hotel.addService("такси",30);
+
+        System.out.println(hotel.getRooms());
+        System.out.println(hotel.getServices());
+
+        hotel.setCost("1", 10);
+        hotel.setCost("еда в номер", 9);
+        hotel.setCost("20", 10);
+        hotel.setCost("купить банан", 10);
+        hotel.setCost(20, 10);
+
+        System.out.println();
 
         System.out.println(hotel.getRooms());
         System.out.println(hotel.getServices());

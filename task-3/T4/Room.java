@@ -2,7 +2,7 @@ package T4;
 
 public class Room {
     private int cost;
-    private String status;// "empty","repair","service","occupied"
+    private String status; // "empty","repair","service","occupied"
 
     public Room(int cost) {
         this.cost = cost;

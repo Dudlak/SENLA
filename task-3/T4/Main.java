@@ -4,6 +4,9 @@ import java.util.Random;
 
 public class Main {
     public static void main(String[] args) {
+
+        /* Электронный администратор гостиницы */
+
         Random random = new Random();
         Hotel hotel = new Hotel();
 

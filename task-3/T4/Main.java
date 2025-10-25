@@ -15,6 +15,10 @@ public class Main {
         hotel.addRoom(random.nextInt(100, 300));
         hotel.addRoom(random.nextInt(100, 300));
 
+        hotel.setRoomOccupied(2);
+        hotel.setRoomRepair(3);
+        hotel.setRoomService(4);
+
         hotel.moveOutRoom(1);
 
         System.out.println();

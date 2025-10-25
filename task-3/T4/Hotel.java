@@ -9,7 +9,7 @@ public class Hotel {
     // === Работа с комнатами ===
 
     public void addRoom(int cost) {
-        rooms.add(new Room(cost));
+        rooms.add(new Room(rooms.size()+1 ,cost));
     }
 
     public String getRooms() {
@@ -18,22 +18,36 @@ public class Hotel {
             return "Отель пуст.";
         }
         for (Room el : rooms){
-            data += String.format("Комната №%-2d — Цена = $ %-3d | Status = %s\n",rooms.indexOf(el) + 1,el.getCost(), el.getStatus());
+            data += el + "\n";
         }
         return data;
     }
 
     //прописать возможные ошибки
     public void setRoomRepair(int number) {
-        rooms.get(number+1).setStatusRepair();
+        try {
+            rooms.get(number-1).setStatusRepair();
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Этой комнаты не существует");
+        }
     }
 
     public void setRoomOccupied(int number) {
-        rooms.get(number+1).setStatusOccupied();
+        try {
+            rooms.get(number-1).setStatusOccupied();
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Этой комнаты не существует");
+        }
+
     }
 
     public void setRoomService(int number) {
-        rooms.get(number+1).setStatusService();
+        try {
+            rooms.get(number-1).setStatusService();
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Этой комнаты не существует");
+        }
+
     }
 
     // === Работа с услугами ===
@@ -85,7 +99,7 @@ public class Hotel {
         try {
             int number = Integer.parseInt(name);
             try {
-                rooms.get(number).setCost(cost);
+                rooms.get(number-1).setCost(cost);
             } catch (IndexOutOfBoundsException e){
                 System.out.println("Комната №" + number + " не существует.");
             }

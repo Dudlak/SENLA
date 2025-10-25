@@ -1,10 +1,11 @@
 package T2;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Storage {
     private int capacity = 3;
-    private final ArrayList<Box> storage = new ArrayList<>();
+    private final List<Box> storage = new ArrayList<>();
     private float storageWeight;
 
     public Storage() {

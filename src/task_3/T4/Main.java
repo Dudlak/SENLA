@@ -8,7 +8,7 @@ public class Main {
         /* Электронный администратор гостиницы */
 
         Random random = new Random();
-        Hotel hotel = new Hotel();
+        T4.Hotel hotel = new T4.Hotel();
 
         hotel.addRoom(random.nextInt(100, 300));
         hotel.addRoom(random.nextInt(100, 300));

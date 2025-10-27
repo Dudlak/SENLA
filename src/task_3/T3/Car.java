@@ -1,9 +1,9 @@
 package T3;
 
-class Car implements IProduct {
-    private CarBody body;
-    private Chassis chassis;
-    private Engine engine;
+class Car implements T3.IProduct {
+    private T3.CarBody body;
+    private T3.Chassis chassis;
+    private T3.Engine engine;
     private final String model;
 
     public Car(String model) {
@@ -12,25 +12,25 @@ class Car implements IProduct {
     }
 
     @Override
-    public void installFirstPart(IProductPart part) {
-        if (part instanceof CarBody) {
-            this.body = (CarBody) part;
+    public void installFirstPart(T3.IProductPart part) {
+        if (part instanceof T3.CarBody) {
+            this.body = (T3.CarBody) part;
             System.out.println("Устанавливаем кузов: " + part);
         }
     }
 
     @Override
-    public void installSecondPart(IProductPart part) {
-        if (part instanceof Chassis) {
-            this.chassis = (Chassis) part;
+    public void installSecondPart(T3.IProductPart part) {
+        if (part instanceof T3.Chassis) {
+            this.chassis = (T3.Chassis) part;
             System.out.println("Устанавливаем шасси: " + part);
         }
     }
 
     @Override
-    public void installThirdPart(IProductPart part) {
-        if (part instanceof Engine) {
-            this.engine = (Engine) part;
+    public void installThirdPart(T3.IProductPart part) {
+        if (part instanceof T3.Engine) {
+            this.engine = (T3.Engine) part;
             System.out.println("Устанавливаем двигатель: " + part);
         }
     }

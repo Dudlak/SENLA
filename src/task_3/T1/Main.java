@@ -1,4 +1,4 @@
-package T1;
+package task_3.T1;
 
 public class Main {
 

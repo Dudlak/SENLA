@@ -39,14 +39,14 @@ public class Main {
                     Available commands:
                 
                     nextDay(+)
-                    checkDay
+                    checkDay  -  Список номеров которые будут свободны по определенной дате в будущем
                     costs
                     costsSorted
                 
                    Room:
                     addRoom
                     room
-                    roomHistory
+                    roomHistory  -  Посмотреть 3-х последних постояльцев номера и даты их пребывания
                     rooms
                     roomsSorted
                     moveInto
@@ -57,8 +57,8 @@ public class Main {
                 
                    Guest:
                     guest
-                    guestPay
-                    guestServices
+                    guestPay  -  Сумма   оплаты за номер которую должен оплатить постоялец
+                    guestServices  -  Посмотреть список услуг постояльца и их цену
                     guestServicesSorted
                     guestUseService
                     guests

@@ -1,4 +1,4 @@
-package T4;
+package task_4.T1;
 
 public class Service {
     private int cost;

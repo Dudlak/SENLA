@@ -1,21 +1,21 @@
-package T4;
+package task_4.T1;
 
 import java.util.Random;
 
-public class Main {
+public class Test {
     public static void main(String[] args) {
 
         /* Электронный администратор гостиницы */
 
         Random random = new Random();
-        T4.Hotel hotel = new T4.Hotel();
+        Hotel hotel = new Hotel();
 
         hotel.addRoom(random.nextInt(100, 300));
         hotel.addRoom(random.nextInt(100, 300));
         hotel.addRoom(random.nextInt(100, 300));
         hotel.addRoom(random.nextInt(100, 300));
 
-        hotel.setRoomOccupied(2);
+        //hotel.setRoomOccupied(2);
         hotel.setRoomRepair(3);
         hotel.setRoomService(4);
 
@@ -38,7 +38,7 @@ public class Main {
 
         System.out.println();
 
-        System.out.println(hotel.getRooms());
+        System.out.println();
         System.out.println(hotel.getServices());
     }
 }

@@ -15,9 +15,8 @@ public class Test {
         hotel.addRoom(random.nextInt(100, 300));
         hotel.addRoom(random.nextInt(100, 300));
 
-        //hotel.setRoomOccupied(2);
-        hotel.setRoomRepair(3);
-        hotel.setRoomService(4);
+        hotel.getRoom(3).setStatusRepair();
+        hotel.getRoom(4).setStatusService();
 
         hotel.moveOutRoom(1);
 

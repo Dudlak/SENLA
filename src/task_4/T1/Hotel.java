@@ -62,28 +62,40 @@ public class Hotel implements Cloneable{
                     }
                 }
 
-                data += "Type \"Room\":\n";
-                for (Cost cost : rooms) {
-                    data += "\tКомната №" + cost.name + " | Cost: " + cost.cost + "\n";
-                }
-                data += "\nType \"Service\":\n";
-                for (Cost cost : services) {
-                    data += "\t" + cost.name + " | Cost: " + cost.cost + "\n";
-                }
+                data += getCosts(rooms, services);
+
                 break;
 
             case "cost":
                 List<Cost> sorted = new ArrayList<>(costs);
                 sorted.sort(Comparator.comparing(Cost::getCost));
 
-                for (Cost cost : sorted) {
-                    if (cost.type.equals("room")){
-                        data += "\tКомната №" + cost.name + " | Cost: " + cost.cost + "\n";
-                    } else {
-                        data += "\t" + cost.name + " | Cost: " + cost.cost + "\n";
-                    }
-                }
+                data = getCosts(sorted);
                 break;
+        }
+        return data;
+    }
+
+    private String getCosts(List<Cost> sorted) {
+        String data = "";
+        for (Cost cost : sorted) {
+            if (cost.type.equals("room")){
+                data += "\tКомната №" + cost.name + " | Cost: " + cost.cost + "\n";
+            } else {
+                data += "\t" + cost.name + " | Cost: " + cost.cost + "\n";
+            }
+        }
+        return data;
+    }
+
+    private String getCosts(List<Cost> rooms, List<Cost> services) {
+        String data = "Type \"Room\":\n";
+        for (Cost cost : rooms) {
+            data += "\tКомната №" + cost.name + " | Cost: " + cost.cost + "\n";
+        }
+        data += "\nType \"Service\":\n";
+        for (Cost cost : services) {
+            data += "\t" + cost.name + " | Cost: " + cost.cost + "\n";
         }
         return data;
     }
@@ -111,30 +123,61 @@ public class Hotel implements Cloneable{
     public String getRooms(String value /* number, capacity, cost, stars */) {
         List<Room> sorted = new ArrayList<>(rooms);
 
-        switch (value) {
-            case "number":
-                return getRooms();
-
-            case "capacity":
+        return switch (value) {
+            case "number" -> getRooms();
+            case "capacity" -> {
                 sorted.sort(Comparator.comparing(Room::getCapacity));
-                return getRooms(sorted);
-
-            case "cost":
+                yield getRooms(sorted);
+            }
+            case "cost" -> {
                 sorted.sort(Comparator.comparing(Room::getCost));
-                return getRooms(sorted);
-
-            case "stars":
+                yield getRooms(sorted);
+            }
+            case "stars" -> {
                 sorted.sort(Comparator.comparing(Room::getStars));
-                return getRooms(sorted);
+                yield getRooms(sorted);
+            }
+            default -> "Incorrect sorting value";
+        };
 
-            default:
-                return "Incorrect sorting value";
-        }
     }
 
     public Room getRoom(int number) {
-        return rooms.get(number-1);
+        if ( number > 0 && number < rooms.size()+1) {
+            return rooms.get(number-1);
+        } else {
+            System.out.println("Incorrect index");
+            return null;
+        }
     }
+
+    private void moveIntoRoom(Room room, int time) {
+        if (room.getStatus().equals("empty")) {
+            room.setStatusOccupied(time + DAY);
+            room.setGuest(new Guest(time + DAY));
+            System.out.println("Заселение в комнату №" + (rooms.indexOf(room)+1) + ".");
+        } else {
+            System.out.println("Заселение в комнату №" + (rooms.indexOf(room)+1) + " не возможно.");
+        }
+    }
+
+    public void moveIntoRoom(int roomNumber, int time) {
+        moveIntoRoom(rooms.get(roomNumber-1), time);
+    }
+
+    private void moveOutRoom(Room room) {
+        if (room.getStatus().equals("occupied")) {
+            room.setStatusEmpty();
+            System.out.println("Выселение из комнаты №" + (rooms.indexOf(room)+1) + ".");
+        } else {
+            System.out.println("Выселение из комнаты №" + (rooms.indexOf(room)+1) + " не возможно.");
+        }
+    }
+
+    public void moveOutRoom(int roomNumber) {
+        moveOutRoom(rooms.get(roomNumber-1));
+    }
+
 
     public String getGuests(List<Guest> guests) {
         String data = "";
@@ -166,51 +209,9 @@ public class Hotel implements Cloneable{
     }
 
     //прописать возможные ошибки
-    public void setRoomRepair(int number) {
-        try {
-            rooms.get(number-1).setStatusRepair();
-        } catch (IndexOutOfBoundsException e) {
-            System.out.println("Этой комнаты не существует");
-        }
-    }
 
-    public void setRoomService(int number) {
-        try {
-            rooms.get(number-1).setStatusService();
-        } catch (IndexOutOfBoundsException e) {
-            System.out.println("Этой комнаты не существует");
-        }
-
-    }
 
     // === Работа с услугами ===
-    private void moveIntoRoom(Room room, int time) {
-        if (room.getStatus().equals("empty")) {
-            room.setStatusOccupied(time + DAY);
-            room.setGuest(new Guest(time + DAY));
-            System.out.println("Заселение в комнату №" + (rooms.indexOf(room)+1) + ".");
-        } else {
-            System.out.println("Заселение в комнату №" + (rooms.indexOf(room)+1) + " не возможно.");
-        }
-    }
-
-    public void moveIntoRoom(int roomNumber, int time) {
-        moveIntoRoom(rooms.get(roomNumber-1), time);
-    }
-
-    private void moveOutRoom(Room room) {
-        if (room.getStatus().equals("occupied")) {
-            room.setStatusEmpty();
-            System.out.println("Выселение из комнаты №" + (rooms.indexOf(room)+1) + ".");
-        } else {
-            System.out.println("Выселение из комнаты №" + (rooms.indexOf(room)+1) + " не возможно.");
-        }
-    }
-
-    public void moveOutRoom(int roomNumber) {
-        moveOutRoom(rooms.get(roomNumber-1));
-    }
-
     public void addService(String name, int cost) {
         services.add(new Service(name, cost));
     }
@@ -361,7 +362,12 @@ public class Hotel implements Cloneable{
     }
 
     public Guest getGuest(int number) {
-        return guests.get(number-1);
+        if ( number > 0 && number < guests.size()+1) {
+            return guests.get(number-1);
+        } else {
+            System.out.println("Incorrect index");
+            return null;
+        }
     }
 
     public boolean serviceExists(String serviceName) {

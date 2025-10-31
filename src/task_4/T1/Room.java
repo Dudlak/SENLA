@@ -68,14 +68,14 @@ public class Room {
     }
 
     public String display() {
-        return String.format("Комната №%-2d — Cost = %-5d| Status = %-8s | UpdateDay = %s" , getNumber(), getCost(), getStatus(), getUpdateDay());
+        return String.format("Комната №%-2d — Cost = %-5s | Status = %-8s | UpdateDay = %s" , getNumber(), getCost() + "$", getStatus(), getUpdateDay());
     }
 
     @Override
     public String toString() {
         String data = "";
         data += "Комната №" + getNumber() + " {\n";
-        data += "\tCost = " + getCost() + "\n";
+        data += "\tCost = " + getCost() + "$\n";
         data += "\tStatus = " + getStatus() + "\n";
         if (getStatus().equals("occupied")) {
             data += "\t  Guest = " + getGuest() + "\n";

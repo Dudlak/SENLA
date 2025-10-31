@@ -1,14 +1,10 @@
 package task_4.T1;
 
+import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
 
 /*
-    + update в будущее
-    + history для номеров(до 3-х)
-    + история услуг постояльца(sort по цене/дате)
-    + отдельная команда с ценами(sort по типу/цене)
-
     - навести порядок - отсортировать методы классов
 */
 
@@ -17,7 +13,9 @@ public class Main {
     public static int DAY = 0;
 
     public static void main(String[] args) {
-        int number, time;
+        int number;
+        Room room;
+        Guest guest;
 
         Hotel hotel = new Hotel();
         Scanner scanner = new Scanner(System.in);
@@ -32,7 +30,7 @@ public class Main {
         hotel.addService("срочная уборка",20);
         hotel.addService("такси",30);
 
-        String command;
+        String command = "";
 
         System.out.println(
                 """
@@ -69,160 +67,183 @@ public class Main {
                 """
         );
 
-        while (true){
-            hotel.update(DAY);
-            System.out.println("\nDate: day " + DAY);
-            System.out.print("Enter: ");
-            command = scanner.next();
-            System.out.println();
+        while (!command.equals("stop")) {
+            try {
+                hotel.update(DAY);
+                System.out.println("\nDate: day " + DAY);
+                System.out.print("Enter: ");
+                command = scanner.next();
+                System.out.println();
 
-            switch (command) {
-                case "nextDay", "+":
-                    DAY++;
-                    break;
+                switch (command) {
+                    case "nextDay", "+":
+                        DAY++;
+                        break;
 
-                case "checkDay":
-                    System.out.println("Enter the number of day to check: ");
-                    number = Integer.parseInt(scanner.next());
-                    if (number < DAY) {
-                        System.out.println("Can`t see history.");
-                    } else {
-                        Hotel newHotel = hotel.clone();
-                        newHotel.update(number);
-                        System.out.println("Amount of empty rooms at this date: " + newHotel.getEmptyRoomsAmount());
-                    }
-                    break;
+                    case "checkDay":
+                        System.out.println("Enter the number of day to check: ");
+                        number = scanner.nextInt();
+                        if (number < DAY) {
+                            System.out.println("Can`t see history.");
+                        } else {
+                            Hotel newHotel = hotel.clone();
+                            newHotel.update(number);
+                            System.out.println("Amount of empty rooms at this date: " + newHotel.getEmptyRoomsAmount());
+                        }
+                        break;
 
-                case "addRoom":
-                    System.out.print("Cost: ");
-                    command = scanner.next();
-                    hotel.addRoom(Integer.parseInt(command));
-                    System.out.println("Комната добавлена");
-                    break;
+                    case "addRoom":
+                        System.out.print("Cost: ");
+                        number = scanner.nextInt();
+                        hotel.addRoom(number);
+                        System.out.println("Room added.");
+                        break;
 
-                case "rooms":
-                    System.out.println(hotel.getRooms());
-                    break;
+                    case "rooms":
+                        System.out.println(hotel.getRooms());
+                        break;
 
-                case "roomsSorted":
-                    System.out.print("Enter value of sorting (number/cost/capacity): ");
-                    command = scanner.next();
-                    System.out.println(hotel.getRooms(command));
-                    break;
+                    case "roomsSorted":
+                        System.out.print("Enter value of sorting (number/cost/capacity): ");
+                        command = scanner.next();
+                        System.out.println(hotel.getRooms(command));
+                        break;
 
-                case "room":
-                    System.out.print("Enter room number: ");
-                    number = Integer.parseInt(scanner.next());
-                    System.out.println(hotel.getRoom(number));
-                    break;
+                    case "room":
+                        System.out.print("Enter room number: ");
+                        number = scanner.nextInt();
+                        room = hotel.getRoom(number);
+                        if (room != null) {
+                            System.out.println(room);
+                        }
+                        break;
 
-                case "roomHistory":
-                    System.out.print("Enter room number: ");
-                    number = Integer.parseInt(scanner.next());
-                    System.out.println("History: " + hotel.getRoomHistory(number));
-                    break;
+                    case "roomHistory":
+                        System.out.print("Enter room number: ");
+                        number = scanner.nextInt();
+                        room = hotel.getRoom(number);
+                        if (room != null) {
+                            System.out.println("History: " + room.getGuestsHistory());
+                        }
+                        break;
 
-                case "services":
-                    System.out.println(hotel.getServices());
-                    break;
+                    case "services":
+                        System.out.println(hotel.getServices());
+                        break;
 
-                case "guest":
-                    System.out.print("Enter the number of guest: ");
-                    number = Integer.parseInt(scanner.next());
-                    System.out.println(hotel.getGuest(number));
-                    break;
+                    case "guest":
+                        System.out.print("Enter the number of guest: ");
+                        number = scanner.nextInt();
+                        guest = hotel.getGuest(number);
+                        if (guest != null) {
+                            System.out.println(guest);
+                        }
+                        break;
 
-                case "guestPay":
-                    System.out.print("Enter the number of guest: ");
-                    number = Integer.parseInt(scanner.next());
-                    System.out.println(hotel.getGuest(number).getName() + " should pay " + hotel.getGuest(number).getPay());
-                    break;
+                    case "guestPay":
+                        System.out.print("Enter the number of guest: ");
+                        number = scanner.nextInt();
+                        guest = hotel.getGuest(number);
+                        if (guest != null) {
+                            System.out.println(guest.getName() + " should pay " + guest.getPay() + "$");
+                        }
+                        break;
 
-                case "guestServices":
-                    System.out.print("Enter the number of guest: ");
-                    number = Integer.parseInt(scanner.next());
-                    System.out.println(hotel.getGuest(number).getServices());
-                    break;
+                    case "guestServices":
+                        System.out.print("Enter the number of guest: ");
+                        number = scanner.nextInt();
+                        guest = hotel.getGuest(number);
+                        if (guest != null) {
+                            System.out.println(guest.getServices());
+                        }
+                        break;
 
-                case "guestServicesSorted":
-                    System.out.print("Enter the number of guest: ");
-                    number = Integer.parseInt(scanner.next());
-                    System.out.print("Enter value of sorting (cost/date): ");
-                    command = scanner.next();
-                    System.out.println(hotel.getGuest(number).getServices(command));
-                    break;
+                    case "guestServicesSorted":
+                        System.out.print("Enter the number of guest: ");
+                        number = scanner.nextInt();
 
-                case "guestUseService":
-                    System.out.print("Enter the number of guest: ");
-                    number = Integer.parseInt(scanner.next());
-                    scanner.nextLine();
-                    System.out.print("Enter the name of service: ");
-                    command = scanner.nextLine();
-                    if (hotel.serviceExists(command)) {
-                        hotel.getGuest(number).useService(hotel.getService(command));
-                    } else {
-                        System.out.println("Service not found.");
-                    }
-                    break;
+                        guest = hotel.getGuest(number);
+                        if (guest != null) {
+                            System.out.print("Enter value of sorting (cost/date): ");
+                            command = scanner.next();
+                            if (command.equals("cost") || command.equals("date")) {
+                                System.out.println(guest.getServices(command));
+                            }
+                        }
+                        break;
 
-                case "guests":
-                    System.out.println(hotel.getGuests());
-                    break;
+                    case "guestUseService":
+                        System.out.print("Enter the number of guest: ");
+                        number = scanner.nextInt();
+                        scanner.nextLine();
+                        System.out.print("Enter the name of service: ");
+                        command = scanner.nextLine();
+                        if (hotel.serviceExists(command)) {
+                            hotel.getGuest(number).useService(hotel.getService(command));
+                        } else {
+                            System.out.println("Service not found.");
+                        }
+                        break;
 
-                case "guestsSorted":
-                    System.out.print("Enter value of sorting (name/moveOutDay): ");
-                    command = scanner.next();
-                    System.out.println(hotel.getGuests(command));
-                    break;
+                    case "guests":
+                        System.out.println(hotel.getGuests());
+                        break;
 
-                case "moveInto":
-                    System.out.print("Enter room number: ");
-                    number = Integer.parseInt(scanner.next());
+                    case "guestsSorted":
+                        System.out.print("Enter value of sorting (name/moveOutDay): ");
+                        command = scanner.next();
+                        System.out.println(hotel.getGuests(command));
+                        break;
 
-                    System.out.print("Enter visite time: ");
-                    time = Integer.parseInt(scanner.next());
+                    case "moveInto":
+                        System.out.print("Enter room number: ");
+                        number = scanner.nextInt();
 
-                    hotel.moveIntoRoom(number, time);
-                    break;
+                        System.out.print("Enter visite time: ");
+                        int time = scanner.nextInt();
 
-                case "moveOut":
-                    //прописать ручное выселение
-                    break;
+                        hotel.moveIntoRoom(number, time);
+                        break;
 
-                case "emptyRoomsAmount":
-                    System.out.println("Amount of empty rooms: " + hotel.getEmptyRoomsAmount());
-                    break;
+                    case "moveOut":
+                        //прописать ручное выселение
+                        break;
 
-                case "emptyRooms":
-                    System.out.println("List of empty rooms: ");
-                    System.out.println(hotel.getEmptyRooms());
-                    break;
+                    case "emptyRoomsAmount":
+                        System.out.println("Amount of empty rooms: " + hotel.getEmptyRoomsAmount());
+                        break;
 
-                case "emptyRoomsSorted":
-                    System.out.print("Enter value of sorting (number/cost/capacity): ");
-                    command = scanner.next();
-                    System.out.println(hotel.getEmptyRooms(command));
-                    break;
+                    case "emptyRooms":
+                        System.out.println("List of empty rooms: ");
+                        System.out.println(hotel.getEmptyRooms());
+                        break;
 
-                case "guestsAmount":
-                    System.out.println("Amount of guest in hotel: " + hotel.getGuestsAmount());
-                    break;
+                    case "emptyRoomsSorted":
+                        System.out.print("Enter value of sorting (number/cost/capacity): ");
+                        command = scanner.next();
+                        System.out.println(hotel.getEmptyRooms(command));
+                        break;
 
-                case "costs":
-                    System.out.println(hotel.getCosts("type"));
-                    break;
+                    case "guestsAmount":
+                        System.out.println("Amount of guest in hotel: " + hotel.getGuestsAmount());
+                        break;
 
-                case "costsSorted":
-                    System.out.print("Enter value of sorting (type/cost): ");
-                    command = scanner.next();
-                    System.out.println(hotel.getCosts(command));
-                    break;
+                    case "costs":
+                        System.out.println(hotel.getCosts("type"));
+                        break;
 
-                case "stop":
-                    return;
+                    case "costsSorted":
+                        System.out.print("Enter value of sorting (type/cost): ");
+                        command = scanner.next();
+                        System.out.println(hotel.getCosts(command));
+                        break;
 
-                default:
-                    System.out.println("Invalid command");
+                    default:
+                        System.out.println("Invalid command[" + command + "]");
+                }
+            } catch (InputMismatchException e) {
+                scanner.nextLine();
+                System.out.println("It must be number.");
             }
         }
     }

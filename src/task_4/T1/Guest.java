@@ -6,17 +6,17 @@ public class Guest {
     Random random = new Random();
 
     private final String name;
-    private int roomNumber;
+    private Room room;
     private final int moveInDay;
     private final int moveOutDay;
     private int pay = 0;
 
-    private final List<serviceCase> history = new ArrayList<>();
+    private final List<ServiceCase> history = new ArrayList<>();
 
-    private class serviceCase {
+    private class ServiceCase {
         Service service;
         int date;
-        public serviceCase(Service service, int date) {
+        public ServiceCase(Service service, int date) {
             this.service = service;
             this.date = date;
         }
@@ -27,6 +27,11 @@ public class Guest {
 
         public int getServiceDate() {
             return date;
+        }
+
+        @Override
+        public String toString() {
+            return "'" + name + "'";
         }
     }
 
@@ -51,12 +56,14 @@ public class Guest {
 
     @Override
     public String toString() {
-        String data = "";
-        data += "Постоялец " + name + " {\n";
-        data += "\tRoom = " + roomNumber + "\n";
-        data += "\tMoveOutDay = " + moveOutDay + "\n}";
-
-        return data;
+        return "Guest{" +
+                "\tname='" + name + "'\n" +
+                "\troom='Комната №" + room.getNumber() + "'\n" +
+                "\tmoveInDay=" + moveInDay + "\n" +
+                "\tmoveOutDay=" + moveOutDay + "\n" +
+                "\tpay=" + getPay() + "$\n" +
+                "\thistory=" + history + "\n" +
+                '}';
     }
 
     public String getName() {
@@ -64,17 +71,15 @@ public class Guest {
     }
 
     public int getRoomNumber() {
-        return roomNumber;
+        return room.getNumber();
     }
 
     public void useService(Service service){
-        history.add(new serviceCase(service, Main.DAY));
-        pay += service.getCost();
+        history.add(new ServiceCase(service, Main.DAY));
     }
 
     public void setRoom(Room room) {
-        this.roomNumber = room.getNumber();
-        pay += (moveOutDay - moveInDay) * room.getCost();
+        this.room = room;
     }
 
     public int getMoveOutDay() {
@@ -86,29 +91,37 @@ public class Guest {
     }
 
     public int getPay() {
+        updatePay();
         return pay;
+    }
+
+    private void updatePay() {
+        pay = (moveOutDay - moveInDay) * room.getCost();
+        for (ServiceCase el : history) {
+            pay += el.getServiceCost();
+        }
     }
 
     public String getServices() {
         return getServices(history);
     }
-    public String getServices(List<serviceCase> history) {
+    public String getServices(List<ServiceCase> history) {
         String data = "";
-        for (serviceCase serviceCase : history) {
+        for (ServiceCase serviceCase : history) {
             data += " " + serviceCase.service + " - Cost: " + serviceCase.service.getCost() + " | " + "Date: " + serviceCase.date + "\n";
         }
         return data;
     }
 
     public String getServices(String value) {
-        List<serviceCase> sorted = new ArrayList<>(history);
+        List<ServiceCase> sorted = new ArrayList<>(history);
         switch (value){
             case "cost":
-                sorted.sort(Comparator.comparing(serviceCase::getServiceCost));
+                sorted.sort(Comparator.comparing(ServiceCase::getServiceCost));
                 break;
 
             case "date":
-                sorted.sort(Comparator.comparing(serviceCase::getServiceDate));
+                sorted.sort(Comparator.comparing(ServiceCase::getServiceDate));
                 break;
         }
         return getServices(sorted);

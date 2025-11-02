@@ -3,7 +3,7 @@ package task_5.T1.Menu;
 public class MenuItem {
     private String title;
     private IAction action;
-    private Menu nextMenu;
+    private Menu nextMenu, prevMenu;
 
     public MenuItem(String title, IAction action, Menu nextMenu) {
         this.title = title;

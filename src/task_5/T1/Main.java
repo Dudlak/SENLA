@@ -18,24 +18,10 @@ public class Main {
         Hotel hotel = new Hotel();
 
         Builder builder = new Builder(hotel);
-        builder.buildMenu();
-        Navigator navigator = new Navigator(builder.getRootMenu());
+        Navigator navigator = new Navigator(null);
         MenuController controller = new MenuController(builder, navigator);
 
-        Scanner scanner = new Scanner(System.in);
-        while (true) {
-            navigator.printMenu();
-            System.out.print("Выберите пункт (или введите 0 для выхода): ");
-            int choice = scanner.nextInt();
-
-            if (choice == 0) {
-                System.out.println("Выход из программы.");
-                break;
-            }
-
-            navigator.navigate(choice);
-            System.out.println(); // Пустая строка для читаемости
-        }
+        controller.run();
     }
 
     public static void old_main(String[] args) {

@@ -5,7 +5,7 @@ import java.util.Comparator;
 import java.util.List;
 
 public class Hotel implements Cloneable{
-    private int DAY = 0;
+    private static int DAY = 0;
 
     private List<Guest> guests = new ArrayList<>();
     private int guestsAmount;
@@ -17,6 +17,16 @@ public class Hotel implements Cloneable{
     private final List<Service> services = new ArrayList<>();
 
     public final List<Cost> costs = new ArrayList<>();
+
+    public Hotel() {
+        // набор комнат и услуг по умолчанию
+        for (int i = 0; i < 10; i++) {
+            addRoom(i*5);
+        }
+        addService("еда в номер",10);
+        addService("срочная уборка",20);
+        addService("такси",30);
+    }
 
     private class Cost {
         String name; //number, name
@@ -257,6 +267,10 @@ public class Hotel implements Cloneable{
 
     // === Синхронизация данных ===
 
+    public void update() {
+        update(DAY);
+    }
+
     public void update(int day) {
         for (int i = DAY; i <= day; i++) {
             roomsUpdate(i);
@@ -309,6 +323,10 @@ public class Hotel implements Cloneable{
         for (Service service : services){
             costs.add(new Cost(service));
         }
+    }
+
+    public static int getDAY() {
+        return DAY;
     }
 
     public void nextDAY() {

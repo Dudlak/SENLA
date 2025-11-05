@@ -19,7 +19,7 @@ public class Builder {
     public void buildMenu() {
 
         //все элементы меню
-        MenuItem nextDay = new MenuItem("nextDay(+)", new IAction() {
+        MenuItem nextDay = new MenuItem("nextDay", new IAction() {
             @Override
             public void execute() {
                 hotel.nextDAY();
@@ -250,10 +250,20 @@ public class Builder {
             }
         }, new Menu("Room menu", roomItems));
 
-        //MenuItem[] для главного меню
-        MenuItem[] allItems = {nextDay, checkDay, costs, costsSorted, services, guestMenu, roomMenu};
+        //MenuItem[] для полного меню
+        MenuItem[] fullItems = {nextDay, checkDay, costs, costsSorted, addRoom, room, roomHistory, rooms, roomsSorted, moveInto, emptyRooms, emptyRoomsSorted, emptyRoomsAmount, guest, guestPay, guestServices, guestServicesSorted, guestUseService, guests, guestsAmount, services,  guestMenu, roomMenu};
 
-        this.rootMenu = new Menu("Main menu", allItems);
+        //переход для полного меню
+        MenuItem fullMenu = new MenuItem("Full menu", new IAction() {
+            @Override
+            public void execute() {
+            }
+        }, new Menu("Guest menu", fullItems));
+
+        //MenuItem[] для главного меню
+        MenuItem[] mainItems = {nextDay, checkDay, costs, costsSorted, services, fullMenu, guestMenu, roomMenu};
+
+        this.rootMenu = new Menu("Main menu", mainItems);
     }
 
     public void update() {

@@ -1,26 +1,35 @@
-package task_6;
+package task_6_1;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
-public class Guest {
+/*
+
+*/
+
+public class Guest implements Displayable {
     Random random = new Random();
 
     private final String name;
-    private Room room;
     private final int moveInDay;
     private final int moveOutDay;
-    private int pay = 0;
+    private int pay, roomPay;
 
     private final List<ServiceCase> history = new ArrayList<>();
 
-    private class ServiceCase {
+    static class ServiceCase {
+        static long lastID;
+        long id;
         Service service;
         int date;
         public ServiceCase(Service service, int date) {
+            lastID++;
+            id = lastID;
             this.service = service;
+            this.date = date;
+        }
+
+        public ServiceCase(String name, int date, int cost) {
+            this.service = new Service(name, cost);
             this.date = date;
         }
 
@@ -31,10 +40,19 @@ public class Guest {
         public int getServiceDate() {
             return date;
         }
+        public String getServiceName() {
+            return service.getName();
+        }
+
+        public long getID() {
+            return id;
+        }
+
+
 
         @Override
         public String toString() {
-            return "'" + name + "'";
+            return "'" + service.getName() + "'";
         }
     }
 
@@ -53,15 +71,26 @@ public class Guest {
 
     public Guest(int moveOutDay) {
         name = names[random.nextInt(names.length)];
-        this.moveInDay = Main.DAY;
+        this.moveInDay = Hotel.getDAY();
         this.moveOutDay = moveOutDay;
+    }
+
+    public Guest(String name, int moveInDay, int moveOutDay, int pay) {
+        this.name = name;
+        this.moveInDay = moveInDay;
+        this.moveOutDay = moveOutDay;
+        this.pay = pay;
+    }
+
+    @Override
+    public String display() {
+        return "Постоялец: '" + getName() + "'";
     }
 
     @Override
     public String toString() {
-        return "Guest{" +
+        return "Guest{\n" +
                 "\tname='" + name + "'\n" +
-                "\troom='Комната №" + room.getNumber() + "'\n" +
                 "\tmoveInDay=" + moveInDay + "\n" +
                 "\tmoveOutDay=" + moveOutDay + "\n" +
                 "\tpay=" + getPay() + "$\n" +
@@ -73,16 +102,8 @@ public class Guest {
         return name;
     }
 
-    public int getRoomNumber() {
-        return room.getNumber();
-    }
-
     public void useService(Service service){
-        history.add(new ServiceCase(service, Main.DAY));
-    }
-
-    public void setRoom(Room room) {
-        this.room = room;
+        history.add(new ServiceCase(service, Hotel.getDAY()));
     }
 
     public int getMoveOutDay() {
@@ -93,13 +114,17 @@ public class Guest {
         return moveInDay;
     }
 
+    public void setRoomPay(int roomPay) {
+        this.roomPay = roomPay;
+    }
+
     public int getPay() {
         updatePay();
         return pay;
     }
 
     private void updatePay() {
-        pay = (moveOutDay - moveInDay) * room.getCost();
+        pay = roomPay;
         for (ServiceCase el : history) {
             pay += el.getServiceCost();
         }
@@ -111,7 +136,7 @@ public class Guest {
     public String getServices(List<ServiceCase> history) {
         String data = "";
         for (ServiceCase serviceCase : history) {
-            data += " " + serviceCase.service + " - Cost: " + serviceCase.service.getCost() + " | " + "Date: " + serviceCase.date + "\n";
+            data += String.format("\t%-10s - Цена: %-2d$ | Дата: %d\n", serviceCase.service, serviceCase.service.getCost(), serviceCase.date);
         }
         return data;
     }
@@ -119,14 +144,21 @@ public class Guest {
     public String getServices(String value) {
         List<ServiceCase> sorted = new ArrayList<>(history);
         switch (value){
-            case "cost":
+            case "цена":
                 sorted.sort(Comparator.comparing(ServiceCase::getServiceCost));
                 break;
 
-            case "date":
+            case "дата":
                 sorted.sort(Comparator.comparing(ServiceCase::getServiceDate));
                 break;
+
+                default:
+                System.out.println("Некорректное значение сортировки услуг");;
         }
         return getServices(sorted);
+    }
+
+    public List<ServiceCase> getHistory() {
+        return history;
     }
 }

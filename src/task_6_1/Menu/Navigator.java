@@ -1,12 +1,14 @@
-package task_6.Menu;
+package task_6_1.Menu;
 
-import task_6.Hotel;
+import task_6_1.Hotel;
 
+import java.util.Scanner;
 import java.util.Stack;
 
 public class Navigator {
     private Menu currentMenu;
     private Stack<Menu> menuHistory; // Стек для хранения истории
+    public static Scanner scanner = new Scanner(System.in);
 
     public Navigator(Menu initialMenu) {
         this.currentMenu = initialMenu;
@@ -35,14 +37,14 @@ public class Navigator {
             // Возврат назад
             if (!menuHistory.isEmpty()) {
                 currentMenu = menuHistory.pop(); // Извлекаем предыдущее меню
-                System.out.println("Back to " + currentMenu.getName());
+                System.out.println("Возвращение в " + currentMenu.getName());
             } else {
-                System.out.println("It is root menu. You can`t go back.");
+                System.out.println("Это главное меню. Невозможно вернуться назад");
             }
             return;
         }
 
-        if (index > 0 && index <= items.length) {
+        try {
             MenuItem selectedItem = items[index - 1];
             selectedItem.doAction(); // Выполняем действие
 
@@ -51,8 +53,9 @@ public class Navigator {
                 menuHistory.push(currentMenu); // Сохраняем текущее меню в историю
                 currentMenu = selectedItem.getNextMenu();
             }
-        } else {
-            System.out.println("Incorrect input.");
+        } catch (Throwable e) {
+            System.out.println("Неверный ввод (" + e + ")");
+            scanner.next();
         }
     }
 

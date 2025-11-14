@@ -1,4 +1,4 @@
-package task_6.Menu;
+package task_6_1.Menu;
 
 public class Menu {
     private String name;

@@ -1,12 +1,13 @@
 package task_7;
 
+import java.io.Serializable;
 import java.util.*;
 
 /*
 
 */
 
-public class Guest implements Displayable {
+public class Guest implements Displayable, Serializable {
     Random random = new Random();
 
     private final String name;

@@ -8,14 +8,12 @@ import java.util.Scanner;
 
 public class Builder {
     Scanner scanner = Navigator.scanner;
-    Saver saver;
 
     private final Hotel hotel;
     private Menu rootMenu;
 
     public Builder(Hotel hotel) {
         this.hotel = hotel;
-        saver = new Saver(hotel);
     }
 
     public void buildMenu() {
@@ -261,21 +259,21 @@ public class Builder {
         MenuItem saveAll = new MenuItem("Сохранить всё", new IAction() {
             @Override
             public void execute() {
-                saver.exportSave();
+                Saver.exportState(hotel);
             }
         }, null);
 
         MenuItem clearSaves = new MenuItem("Удалить все сохранения", new IAction() {
             @Override
             public void execute() {
-                saver.clear();
+                Saver.clear();
             }
         }, null);
 
         MenuItem loadSaves = new MenuItem("Загрузить все сохранения", new IAction() {
             @Override
             public void execute() {
-                saver.importSave();
+                Saver.importState();
             }
         }, null);
 

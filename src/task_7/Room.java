@@ -1,12 +1,15 @@
 package task_7;
 
+import task_4.T1.Service;
+
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Objects;
 
 import static task_4.T1.Main.random;
 
-public class Room implements Displayable {
+public class Room implements Displayable, Serializable {
     private int cost, number, capacity, stars;
     private String status; // "empty","repair","service","occupied"
     private int updateDay = 0;

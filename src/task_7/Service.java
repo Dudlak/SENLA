@@ -1,6 +1,8 @@
 package task_7;
 
-public class Service {
+import java.io.Serializable;
+
+public class Service implements Serializable {
     private int cost;
     private final String name;
 

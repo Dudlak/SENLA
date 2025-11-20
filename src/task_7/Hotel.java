@@ -1,8 +1,9 @@
 package task_7;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class Hotel implements Cloneable{
+public class Hotel implements Cloneable, Serializable {
     private static int DAY = 0;
 
     /*
@@ -33,7 +34,7 @@ public class Hotel implements Cloneable{
         addService("вечеринка",100);
     }
 
-    private static class Cost {
+    private static class Cost implements Serializable {
         String name; // number/name
         String type; // room/service
         int cost;

@@ -13,7 +13,9 @@ public class MenuController {
     }
 
     public void run() {
-        builder.buildMenu(); // Строим меню
+        builder.loadConfig();
+        builder.buildMenu();// Строим меню
+        builder.autoLoad();
         navigator.setCurrentMenu(builder.getRootMenu()); // Устанавливаем корневое меню
 
         scanner = new Scanner(System.in);

@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.Objects;
 
 import static task_4.T1.Main.random;
+import static task_7.Main.config;
 
 public class Room implements Displayable, Serializable {
     private int cost, number, capacity, stars;
@@ -15,7 +16,7 @@ public class Room implements Displayable, Serializable {
     private int updateDay = 0;
     private Guest guest;
 
-    private String[] guestsHistory = new String[3];
+    private String[] guestsHistory = new String[config.getInt("db.guestsHistoryLong")];
 
 
     public Room(int number, int cost) {

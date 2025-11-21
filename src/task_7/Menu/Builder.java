@@ -6,10 +6,12 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Scanner;
 
+import static task_7.Main.config;
+
 public class Builder {
     Scanner scanner = Navigator.scanner;
 
-    private final Hotel hotel;
+    private Hotel hotel;
     private Menu rootMenu;
 
     public Builder(Hotel hotel) {
@@ -31,7 +33,7 @@ public class Builder {
             public void execute() {
                 System.out.print("Введите день для проверки: ");
                 int number = scanner.nextInt();
-                if (number < hotel.getDAY()) {
+                if (number < Hotel.getDAY()) {
                     System.out.println("Не вижу прошлое(");
                 } else {
                     Hotel newHotel = hotel.clone();
@@ -266,14 +268,22 @@ public class Builder {
         MenuItem clearSaves = new MenuItem("Удалить все сохранения", new IAction() {
             @Override
             public void execute() {
-                Saver.clear();
+                System.out.println("Сохранения будут безвозвратно утеряны. Уверены? (д/н)");
+                String choice = scanner.next().toLowerCase();
+                if (choice.equals("д")){
+                    Saver.clear();
+                } else if (choice.equals("н")) {
+                    System.out.println("Удаление отменено.");
+                } else {
+                    System.out.println("Неверный ввод. Удаление отменено.");
+                }
             }
         }, null);
 
         MenuItem loadSaves = new MenuItem("Загрузить все сохранения", new IAction() {
             @Override
             public void execute() {
-                Saver.importState();
+                hotel = (Hotel) Saver.importState();
             }
         }, null);
 
@@ -327,5 +337,25 @@ public class Builder {
 
     public Menu getRootMenu() {
         return rootMenu;
+    }
+
+    public void autoLoad() {
+        if (config.getBoolean("db.autoLoadSave")) {
+            System.out.println("Автозагрузка сохранения:");
+            hotel = (Hotel) Saver.importState();
+        }
+    }
+
+    public void loadConfig() {
+        System.out.println("Загрузить настройки из файла? (д/н)");
+        String choice = scanner.next().toLowerCase();
+        if (choice.equals("д")){
+            config.loadConfig();
+        } else if (choice.equals("н")) {
+            config.loadDefaultProperties();
+        } else {
+            System.out.println("Неверный ввод. Установлены значения по умолчанию");
+            config.loadDefaultProperties();
+        }
     }
 }

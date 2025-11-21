@@ -3,6 +3,8 @@ package task_7;
 import java.io.Serializable;
 import java.util.*;
 
+import static task_7.Main.hotel;
+
 /*
 
 */
@@ -72,7 +74,7 @@ public class Guest implements Displayable, Serializable {
 
     public Guest(int moveOutDay) {
         name = names[random.nextInt(names.length)];
-        this.moveInDay = Hotel.getDAY();
+        this.moveInDay = hotel.getDAY();
         this.moveOutDay = moveOutDay;
     }
 
@@ -104,7 +106,7 @@ public class Guest implements Displayable, Serializable {
     }
 
     public void useService(Service service){
-        history.add(new ServiceCase(service, Hotel.getDAY()));
+        history.add(new ServiceCase(service, hotel.getDAY()));
     }
 
     public int getMoveOutDay() {

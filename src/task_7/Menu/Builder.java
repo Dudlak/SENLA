@@ -7,16 +7,12 @@ import java.util.Iterator;
 import java.util.Scanner;
 
 import static task_7.Main.config;
+import static task_7.Main.hotel;
 
 public class Builder {
     Scanner scanner = Navigator.scanner;
 
-    private Hotel hotel;
     private Menu rootMenu;
-
-    public Builder(Hotel hotel) {
-        this.hotel = hotel;
-    }
 
     public void buildMenu() {
 
@@ -33,7 +29,7 @@ public class Builder {
             public void execute() {
                 System.out.print("Введите день для проверки: ");
                 int number = scanner.nextInt();
-                if (number < Hotel.getDAY()) {
+                if (number < hotel.getDAY()) {
                     System.out.println("Не вижу прошлое(");
                 } else {
                     Hotel newHotel = hotel.clone();

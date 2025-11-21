@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.*;
 
 public class Hotel implements Cloneable, Serializable {
-    private static int DAY = 0;
+    private int DAY;
 
     /*
 
@@ -303,7 +303,7 @@ public class Hotel implements Cloneable, Serializable {
         }
     }
 
-    public static int getDAY() {
+    public int getDAY() {
         return DAY;
     }
 

@@ -1,22 +1,29 @@
 package task_7.Properties;
 
 import java.io.*;
+import java.util.Map;
 import java.util.Properties;
 
 public class Config {
-    private Properties properties;
-    private String configFile = "src/task_7/Properties/config.properties";
+    private final Properties properties;
 
     public Config() {
         properties = new Properties();
-        loadDefaultProperties();
     }
 
     // Загрузка конфигурации из файла
     public void loadConfig() {
-        try (InputStream input = new FileInputStream(configFile)) {
+        loadConfig("config.properties");
+    }
+
+    public void loadConfig(String file) {
+        file = "src/task_7/Properties/" + file;
+        try (InputStream input = new FileInputStream(file)) {
             properties.load(input);
-            System.out.println("Конфигурация загружена из " + configFile);
+            System.out.println("Конфигурация загружена из " + file);
+            for (Map.Entry<Object, Object> set : properties.entrySet()) {
+                System.out.println("\t" + set.getKey() + "=" + set.getValue());
+            }
         } catch (IOException e) {
             System.out.println("Файл конфигурации не найден, используются значения по умолчанию");
             loadDefaultProperties();
@@ -25,8 +32,7 @@ public class Config {
 
     // Установка значений по умолчанию
     public void loadDefaultProperties() {
-        properties.setProperty("db.guestsHistoryLong", "3");
-        properties.setProperty("db.autoLoadSave", "true");
+        loadConfig("default.properties");
     }
 
     // Получение строкового значения

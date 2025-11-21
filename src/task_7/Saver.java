@@ -5,7 +5,7 @@ import java.io.*;
 
 public class Saver {
     /*
-        тесты
+
     */
 
     public static void exportState(Object obj) {

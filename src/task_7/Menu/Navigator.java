@@ -1,9 +1,9 @@
 package task_7.Menu;
 
-import task_7.Hotel;
-
 import java.util.Scanner;
 import java.util.Stack;
+
+import static task_7.Main.hotel;
 
 public class Navigator {
     private Menu currentMenu;
@@ -17,7 +17,7 @@ public class Navigator {
 
     public void printMenu() {
         if (currentMenu != null) {
-            System.out.println("=== " + currentMenu.getName() + " ===\tDay: " + Hotel.getDAY());
+            System.out.println("=== " + currentMenu.getName() + " ===\tDay: " + hotel.getDAY());
             if (!menuHistory.isEmpty()) {
                 System.out.println("0. Back\n"); // Добавляем опцию "Назад"
             }

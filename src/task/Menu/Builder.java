@@ -1,13 +1,13 @@
-package task.Menu;
+package task_7.Menu;
 
-import task.*;
+import task_7.*;
 
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Scanner;
 
-import static task.Main.config;
-import static task.Main.hotel;
+import static task_7.Main.config;
+import static task_7.Main.hotel;
 
 public class Builder {
     Scanner scanner = Navigator.scanner;

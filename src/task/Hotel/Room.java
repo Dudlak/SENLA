@@ -1,5 +1,7 @@
 package task.Hotel;
 
+import task.Annotations.ConfigProperty;
+import task.Annotations.PropertyType;
 import task.Displayable;
 
 import java.io.Serializable;
@@ -15,16 +17,16 @@ public class Room implements Displayable, Serializable {
     private String status; // "empty","repair","service","occupied"
     private int updateDay = 0;
     private Guest guest;
+    private String[] guestsHistory;
 
-    private String[] guestsHistory = new String[config.getInt("db.guestsHistoryLong")];
 
-
-    public Room(int number, int cost) {
+    public Room(int number, int cost, int guestsHistoryLong) {
         this.cost = cost;
         this.number = number;
         status = "empty";
         capacity = random.nextInt(1,5);
         stars = random.nextInt(2,5);
+        guestsHistory = new String[guestsHistoryLong];
     }
 
     //id;number;cost;capacity;stars;status;updateDay;history;guestExist

@@ -1,5 +1,7 @@
 package task;
 
+import task.Hotel.Hotel;
+
 import java.io.*;
 
 
@@ -26,7 +28,7 @@ public class Saver {
             return obj;
         } catch (IOException | ClassNotFoundException e) {
             System.out.println("Ошибка десериализации: " + e.getMessage());
-            return null;
+            return new Hotel();
         }
     }
 

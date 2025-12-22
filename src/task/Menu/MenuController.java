@@ -1,5 +1,6 @@
 package task.Menu;
 
+import task.Annotations.ConfigProperty;
 import task.Hotel.Hotel;
 import task.Saver;
 
@@ -13,18 +14,22 @@ public class MenuController {
     private Navigator navigator;
     public Scanner scanner;
 
+    @ConfigProperty(configFileName = "config.properties", propertyName = "db.autoLoadSave")
+    boolean autoload;
+
     public MenuController(Builder builder, Navigator navigator) {
         this.builder = builder;
         this.navigator = navigator;
+
+        scanner = new Scanner(System.in);
     }
 
     public void run() {
-        loadConfig();
-        builder.buildMenu();// Строим меню
+        loadConfiguration();
+        builder.buildMenu();
         autoLoad();
-        navigator.setCurrentMenu(builder.getRootMenu()); // Устанавливаем корневое меню
+        navigator.setCurrentMenu(builder.getRootMenu());
 
-        scanner = new Scanner(System.in);
         int choice;
         while (true) {
             try {
@@ -48,22 +53,25 @@ public class MenuController {
     }
 
     public void autoLoad() {
-        if (config.getBoolean("db.autoLoadSave")) {
-            System.out.println("Автозагрузка сохранения:");
+        if (autoload) {
             hotel = (Hotel) Saver.importState();
         }
     }
 
-    public void loadConfig() {
+    public void loadConfiguration() {
         System.out.println("Загрузить настройки из файла? (д/н)");
         String choice = scanner.next().toLowerCase();
         if (choice.equals("д")){
-            config.loadConfig();
+            config.loadConfiguration(hotel);
+            config.loadConfiguration(this);
         } else if (choice.equals("н")) {
-            config.loadDefaultProperties();
+            config.loadDefaultConfiguration(hotel);
+            config.loadDefaultConfiguration(this);
+
         } else {
             System.out.println("Неверный ввод. Установлены значения по умолчанию");
-            config.loadDefaultProperties();
+            config.loadDefaultConfiguration(hotel);
+            config.loadDefaultConfiguration(this);
         }
     }
 }

@@ -1,5 +1,6 @@
 package task.Hotel;
 
+import task.Annotations.ConfigProperty;
 import task.Displayable;
 
 import java.io.Serializable;
@@ -7,6 +8,9 @@ import java.util.*;
 
 public class Hotel implements Cloneable, Serializable {
     private int DAY;
+
+    @ConfigProperty(configFileName = "config.properties", propertyName = "db.guestsHistoryLong")
+    private int guestsHistoryLong;
 
     /*
 
@@ -122,7 +126,7 @@ public class Hotel implements Cloneable, Serializable {
 
 // === Работа с комнатами ===
     public void addRoom(int cost) {
-        Room room = new Room(findAvailableNumber() ,cost);
+        Room room = new Room(findAvailableNumber() ,cost, guestsHistoryLong);
         data.put(room.getNumber(), room);
     }
 

@@ -6,14 +6,11 @@ import java.util.Stack;
 import static task.Main.hotel;
 
 public class Navigator {
-    private Menu currentMenu;
-    private Stack<Menu> menuHistory; // Стек для хранения истории
+    private Menu currentMenu = null;
+    private final Stack<Menu> menuHistory = new Stack<>(); // Стек для хранения истории
     public static Scanner scanner = new Scanner(System.in);
 
-    public Navigator(Menu initialMenu) {
-        this.currentMenu = initialMenu;
-        this.menuHistory = new Stack<>();
-    }
+    public Navigator(){}
 
     public void printMenu() {
         if (currentMenu != null) {

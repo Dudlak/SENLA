@@ -14,6 +14,8 @@ import static task.Main.hotel;
 public class Builder {
     Scanner scanner = Navigator.scanner;
 
+    public Builder(){};
+
     private Menu rootMenu;
 
     public void buildMenu() {

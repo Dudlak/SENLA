@@ -12,16 +12,13 @@ import java.util.Random;
 
 public class Main {
     public static Random random = new Random();
-    public static Config config;
-    public static Hotel hotel;
+    public static Config config = new Config();
+    public static Hotel hotel = new Hotel();
 
-    public static void main(String[] args) {
-        config = new Config();
-        hotel = new Hotel();
+    public static void main(String[] args) throws Exception {
 
-        Builder builder = new Builder();
-        Navigator navigator = new Navigator(null);
-        MenuController controller = new MenuController(builder, navigator);
+        MenuController controller = new MenuController();
+        DI.injectDependencies(controller);
 
         controller.run();
     }

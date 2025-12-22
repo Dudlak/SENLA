@@ -1,6 +1,7 @@
 package task.Menu;
 
 import task.Annotations.ConfigProperty;
+import task.Annotations.Inject;
 import task.Hotel.Hotel;
 import task.Saver;
 
@@ -10,19 +11,19 @@ import static task.Main.config;
 import static task.Main.hotel;
 
 public class MenuController {
+
+    @Inject
     private Builder builder;
+
+    @Inject
     private Navigator navigator;
-    public Scanner scanner;
+
+    public Scanner scanner = new Scanner(System.in);
 
     @ConfigProperty(configFileName = "config.properties", propertyName = "db.autoLoadSave")
     boolean autoload;
 
-    public MenuController(Builder builder, Navigator navigator) {
-        this.builder = builder;
-        this.navigator = navigator;
-
-        scanner = new Scanner(System.in);
-    }
+    public MenuController() {};
 
     public void run() {
         loadConfiguration();

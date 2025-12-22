@@ -1,4 +1,6 @@
-package task;
+package task.Hotel;
+
+import task.Displayable;
 
 import java.io.Serializable;
 import java.util.*;

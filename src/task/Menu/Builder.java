@@ -1,13 +1,15 @@
-package task_7.Menu;
+package task.Menu;
 
-import task_7.*;
+import task.*;
+import task.Hotel.Guest;
+import task.Hotel.Hotel;
+import task.Hotel.Room;
 
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Scanner;
 
-import static task_7.Main.config;
-import static task_7.Main.hotel;
+import static task.Main.hotel;
 
 public class Builder {
     Scanner scanner = Navigator.scanner;
@@ -327,31 +329,7 @@ public class Builder {
         this.rootMenu = new Menu("Главное меню", mainItems);
     }
 
-    public void update() {
-        hotel.update();
-    }
-
     public Menu getRootMenu() {
         return rootMenu;
-    }
-
-    public void autoLoad() {
-        if (config.getBoolean("db.autoLoadSave")) {
-            System.out.println("Автозагрузка сохранения:");
-            hotel = (Hotel) Saver.importState();
-        }
-    }
-
-    public void loadConfig() {
-        System.out.println("Загрузить настройки из файла? (д/н)");
-        String choice = scanner.next().toLowerCase();
-        if (choice.equals("д")){
-            config.loadConfig();
-        } else if (choice.equals("н")) {
-            config.loadDefaultProperties();
-        } else {
-            System.out.println("Неверный ввод. Установлены значения по умолчанию");
-            config.loadDefaultProperties();
-        }
     }
 }

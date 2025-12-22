@@ -1,4 +1,4 @@
-package task;
+package task.Hotel;
 
 import java.io.Serializable;
 

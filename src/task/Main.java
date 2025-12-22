@@ -1,5 +1,6 @@
 package task;
 
+import task.Hotel.Hotel;
 import task.Menu.*;
 import task.Properties.Config;
 

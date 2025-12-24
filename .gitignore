@@ -2,5 +2,4 @@
 .idea/
 out/
 !**/src/main/**/out/
-!**/src/test/**/out/
-/src/TEST/
+/src/TESTS/

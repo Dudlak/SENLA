@@ -1,8 +1,6 @@
 package task.Hotel;
 
-import java.io.Serializable;
-
-public class Service implements Serializable {
+public class Service extends BaseEntity<Long> {
     private int cost;
     private final String name;
 

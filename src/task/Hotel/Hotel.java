@@ -4,7 +4,11 @@ import task.Annotations.ConfigProperty;
 import task.Displayable;
 
 import java.io.Serializable;
+import java.sql.SQLException;
 import java.util.*;
+
+import static task.Main.guestDAO;
+import static task.Main.roomDAO;
 
 public class Hotel implements Cloneable, Serializable {
     private int DAY;
@@ -128,6 +132,7 @@ public class Hotel implements Cloneable, Serializable {
     public void addRoom(int cost) {
         Room room = new Room(findAvailableNumber() ,cost, guestsHistoryLong);
         data.put(room.getNumber(), room);
+        roomDAO.saveTransaction(room);
     }
 
     public void addRoom(int id, Room room) {
@@ -195,7 +200,9 @@ public class Hotel implements Cloneable, Serializable {
     private void moveIntoRoom(Room room, int time) {
         if (room.getStatus().equals("empty")) {
             room.setStatusOccupied(time + DAY);
-            addGuest(room, new Guest(time + DAY));
+            Guest guest = new Guest(time + DAY);
+            addGuest(room, guest);
+            guestDAO.saveTransaction(guest);
             System.out.println("Заселение в комнату №" + room.getNumber() + ".");
         } else {
             System.out.println("Заселение в комнату №" + room.getNumber() + " не возможно.");

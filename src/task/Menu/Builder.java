@@ -11,6 +11,7 @@ import java.util.Scanner;
 
 import static task.Main.hotel;
 
+
 public class Builder {
     Scanner scanner = Navigator.scanner;
 

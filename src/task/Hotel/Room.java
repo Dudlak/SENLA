@@ -1,18 +1,17 @@
 package task.Hotel;
 
-import task.Annotations.ConfigProperty;
-import task.Annotations.PropertyType;
+
 import task.Displayable;
 
-import java.io.Serializable;
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Objects;
 
-import static task.Main.random;
-import static task.Main.config;
+import static task.Main.*;
 
-public class Room implements Displayable, Serializable {
+
+public class Room extends BaseEntity<Long> implements Displayable {
     private int cost, number, capacity, stars;
     private String status; // "empty","repair","service","occupied"
     private int updateDay = 0;
@@ -129,6 +128,11 @@ public class Room implements Displayable, Serializable {
             historyUpdate();
             setStatusService();
             updateDay++;
+            try {
+                guestDAO.delete(hotel.getId(guest));
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
             guest = null;
         } else {
             status = "empty";

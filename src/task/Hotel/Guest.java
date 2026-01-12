@@ -11,7 +11,7 @@ import static task.Main.hotel;
 
 */
 
-public class Guest implements Displayable, Serializable {
+public class Guest extends BaseEntity<Long> implements Displayable {
     Random random = new Random();
 
     private final String name;
@@ -20,6 +20,11 @@ public class Guest implements Displayable, Serializable {
     private int pay, roomPay;
 
     private final List<ServiceCase> history = new ArrayList<>();
+
+    public int getRoomPay() {
+        return roomPay;
+    }
+
 
     static class ServiceCase {
         static long lastID;
